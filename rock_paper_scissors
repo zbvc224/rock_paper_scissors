@@ -1,0 +1,93 @@
+from getpass import getpass
+# Define constants
+ROCK = "R"
+PAPER = "P"
+SCISSORS = "S"
+VALID_MOVES = [ROCK, PAPER, SCISSORS]
+MOVE_NAMES = {
+    ROCK: "ROCK",
+    PAPER: "PAPER",
+    SCISSORS: "SCISSORS"
+}
+# Define game logic using dictionary
+GAME_RULES = {
+  ROCK: {ROCK: "draw", PAPER: "lose", SCISSORS: "win"},
+  PAPER: {ROCK: "win", PAPER: "draw", SCISSORS: "lose"},
+  SCISSORS: {ROCK: "lose", PAPER: "win", SCISSORS: "draw"}
+}
+#Print the game title
+print("EPIC \U0000270A \U0000270B \U0000270C  BATTLE \n\nSelect your move (R, P or S). Then press ENTER. The first player to win 3 rounds wins!")
+#Start the game loops
+while True:
+  player_1_score = 0
+  player_2_score = 0
+  ROUND = 1
+  while True:
+    #Print the round number
+    print("\n_______________________________________________")
+    print(f"ROUND {ROUND} \U0000270A \U0000270B \U0000270C")
+    print("_______________________________________________")
+    while True:
+      #Get a valid response from player1 and player2
+      player_1 = getpass("\n\nReady Player 1 > ").upper()
+      if player_1 in VALID_MOVES:
+        player_2 = getpass("Ready Player 2 > ").upper()
+        print()
+        if player_2 in VALID_MOVES:
+          break
+        else:
+          print("Invalid move by player 2! Please select R, P, or S.")
+          print()
+      else:
+        print("Invalid move by player 1! Please select R, P, or S.")
+        print()
+        
+    # Assuming player_1 and player_2 have made their choices
+    player_1_choice = MOVE_NAMES[player_1]
+    player_2_choice = MOVE_NAMES[player_2]
+    
+    result = GAME_RULES[player_1][player_2]
+    
+    if result == "win":
+      print(f"\nPlayer 1 chose {player_1_choice} while player 2 chose {player_2_choice}. Player 1 wins this round!!!")
+      player_1_score += 1
+    elif result == "lose":
+      print(f"\nPlayer 1 chose {player_1_choice} while player 2 chose {player_2_choice}. Player 2 wins this round!!!")
+      player_2_score += 1
+    else:
+      print("It's a draw, try again!")
+  
+    #Count the round and score
+    ROUND +=1
+    print(f"\nScore: Player 1  Player 2 \nScore: {player_1_score}         {player_2_score}")
+  
+    #Repeat the 2nd loop untill someone wins 3 rounds
+    if player_1_score == 3 and player_2_score < 3:
+      break
+    elif player_1_score < 3 and player_2_score == 3:
+      break
+    elif player_1_score < 3 or player_2_score < 3:
+      continue
+    else:
+      print("The Game Exited")
+      exit()
+  
+  #This is now the 1st loop. Find out who is the winner
+  if player_1_score > player_2_score:
+    winner = player_1_score
+    winner = "Player 1"
+  else:
+    winner = player_2_score
+    winner = "Player 2"
+  print(f"\n\nWell done {winner}, you won 3 rounds and are therefore the ABSOLUTE WINNER 🥳🥳🥳")
+
+  #See if the first loop will be repeated
+  NEW_GAME = input("Play another game? The looser must decide: ").upper()
+  if NEW_GAME == "NO":
+    break
+  elif NEW_GAME == "YES":
+    continue
+  else:
+    print("You just won infininate amount of games via a cheat code 🤣")
+    exit()
+print("Sad to see you go 🥲")  
